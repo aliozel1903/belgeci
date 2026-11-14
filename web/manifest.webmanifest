@@ -1,0 +1,16 @@
+{
+  "name": "PDF Atölyesi",
+  "short_name": "PDF Atölyesi",
+  "description": "Ücretsiz PDF araçları: böl, birleştir, sayfa değiştir, UDF/Word dönüştür, sıkıştır.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f5f2",
+  "theme_color": "#e5484d",
+  "lang": "tr",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
