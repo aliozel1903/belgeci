@@ -1,5 +1,5 @@
-// PDF Atölyesi servis çalışanı: önce ağ, ağ yoksa önbellek (çevrimdışı kullanım için).
-const CACHE = 'pdf-atolyesi-v2';
+// Belgeci servis çalışanı: önce ağ, ağ yoksa önbellek (çevrimdışı kullanım için).
+const CACHE = 'belgeci-v1';
 const CORE = ['./', 'index.html', 'css/app.css', 'js/app.js', 'js/ui.js', 'js/tools.js', 'js/pdfcore.js', 'js/convert.js', 'js/organizer.js', 'js/compare.js',
   'js/doc/layout.js', 'js/doc/udf.js', 'js/doc/docx.js', 'js/doc/pdf2model.js',
   'vendor/pdf-lib.min.js', 'vendor/fontkit.min.js', 'vendor/jszip.min.js', 'vendor/Sortable.min.js', 'vendor/pdfjs/pdf.min.mjs', 'vendor/pdfjs/pdf.worker.min.mjs',

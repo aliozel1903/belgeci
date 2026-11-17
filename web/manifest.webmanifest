@@ -1,6 +1,6 @@
 {
-  "name": "PDF Atölyesi",
-  "short_name": "PDF Atölyesi",
+  "name": "Belgeci",
+  "short_name": "Belgeci",
   "description": "Ücretsiz PDF araçları: böl, birleştir, sayfa değiştir, UDF/Word dönüştür, sıkıştır.",
   "start_url": "./",
   "scope": "./",

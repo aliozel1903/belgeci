@@ -41,7 +41,7 @@ export const TOOLS = [
       const out = await core.lib().PDFDocument.create();
       for (let i = 0; i < files.length; i++) {
         progress(files[i].name, i / files.length);
-        const src = await core.loadDoc(await core.asPdfBytes(files[i]), files[i].name);
+        const src = await core.loadDoc(await core.asPdfBytes(files[i]), files[i].name, 'assemble');
         (await out.copyPages(src, src.getPageIndices())).forEach((p) => out.addPage(p));
       }
       return [{ name: (o.name || 'birlestirilmis').replace(/\.pdf$/i, '') + '.pdf', bytes: await core.saveDoc(out) }];
@@ -56,7 +56,7 @@ export const TOOLS = [
       { key: 'n', type: 'number', label: ['Sayfa sayısı (N)', 'Pages per file (N)'], default: 10, min: 1, showIf: (o) => o.mode === 'every' },
     ],
     async run([f], o, progress) {
-      const src = await core.loadDoc(f.bytes, f.name);
+      const src = await core.loadDoc(f.bytes, f.name, 'assemble');
       const n = src.getPageCount();
       let groups;
       if (o.mode === 'each') groups = Array.from({ length: n }, (_, i) => [i]);
@@ -189,9 +189,10 @@ export const TOOLS = [
       return [{ name: pdfOut(f, '_sifreli'), bytes: await core.protect(f.bytes, o, f.name) }];
     } },
   { id: 'unlock', cat: 'secure', icon: 'unlock', hue: 'teal', accept: '.pdf',
-    title: ['Şifre Kaldır', 'Unlock PDF'], desc: ['Şifresini bildiğin PDF\'in korumasını kaldır.', 'Remove protection from a PDF whose password you know.'], action: ['Şifreyi kaldır', 'Unlock'],
-    options: [{ key: 'password', type: 'password', label: ['PDF şifresi (yalnızca düzenleme kısıtı varsa boş bırakın)', 'PDF password (leave empty if only editing is restricted)'], default: '' }],
-    run: async ([f], o) => [{ name: pdfOut(f, '_sifresiz'), bytes: await core.unlock(f.bytes, o.password) }] },
+    title: ['Şifre Kaldır', 'Unlock PDF'], desc: ['Şifresini bildiğin PDF\'in açılış şifresini kaldır.', 'Remove the open password from a PDF whose password you know.'], action: ['Şifreyi kaldır', 'Unlock'],
+    note: ['Yalnızca sahibi olduğun ya da korumayı kaldırma iznin olan belgelerde kullan. Yazarın koyduğu düzenleme/kopyalama kısıtlamaları kaldırılmaz.', 'Only use this on documents you own or are permitted to unlock. Editing/copying restrictions set by the author are not removed.'],
+    options: [{ key: 'password', type: 'password', label: ['Açılış şifresi', 'Open password'], default: '' }],
+    run: async ([f], o) => [{ name: pdfOut(f, '_sifresiz'), bytes: await core.unlock(f.bytes, o.password, f.name) }] },
 ];
 
 export const toolById = (id) => TOOLS.find((t) => t.id === id);
@@ -282,7 +283,7 @@ export function renderSimpleTool(tool, root, preset = []) {
     const zipAll = async () => {
       const zip = new window.JSZip();
       out.forEach((o) => zip.file(o.name, o.bytes));
-      download(await zip.generateAsync({ type: 'blob' }), `${baseName(files[0]?.name || 'pdf-atolyesi')}_${tool.id}.zip`);
+      download(await zip.generateAsync({ type: 'blob' }), `${baseName(files[0]?.name || 'belgeci')}_${tool.id}.zip`);
     };
     const one = out.length === 1;
     stage.append(h('div.result',

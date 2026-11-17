@@ -1,4 +1,4 @@
-/* PDF Atölyesi */
+/* Belgeci */
 :root {
   --bg: #f5f5f2; --surface: #ffffff; --surface-2: #f0f0ec; --ink: #1b1c1f; --muted: #666a72; --line: #e2e2dc;
   --accent: #e5484d; --accent-hover: #d13a40; --accent-ink: #fff; --ok: #2b9a66; --warn: #c2750a;
@@ -68,6 +68,7 @@ main.wide { max-width: 1500px; }
 .card.featured strong { font-size: 18px; }
 @media (max-width: 620px) { .card.featured { grid-column: span 1; } .pill:not(.ok) { display: none; } }
 .foot { margin-top: 46px; text-align: center; color: var(--muted); font-size: 13px; }
+.foot .disclaimer { max-width: 640px; margin: 6px auto 0; font-size: 12px; text-wrap: pretty; }
 
 /* ── bırakma alanı ── */
 .drop { display: grid; justify-items: center; gap: 8px; padding: 54px 20px; border: 2px dashed color-mix(in srgb, var(--accent) 45%, var(--line)); border-radius: 18px; background: color-mix(in srgb, var(--accent) 4%, var(--surface)); color: var(--accent); cursor: pointer; text-align: center; transition: background .15s, border-color .15s; }

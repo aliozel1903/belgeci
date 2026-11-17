@@ -181,7 +181,7 @@ export function modal(title, body, { wide = false, onClose } = {}) {
 
 export function errText(e) {
   const m = String(e?.message || e || '');
-  if (/encrypted|password/i.test(m)) return T('Bu PDF şifreli. Önce "Şifre Kaldır" aracını kullanın.', 'This PDF is encrypted. Use the "Unlock" tool first.');
+  if (/PDFDocument\.load|PasswordException/.test(m)) return T('Bu PDF şifreli. Önce "Şifre Kaldır" aracını kullanın.', 'This PDF is encrypted. Use the "Unlock" tool first.');
   if (/Invalid PDF|No PDF header|Failed to parse/i.test(m)) return T('Dosya geçerli bir PDF değil ya da bozuk.', 'The file is not a valid PDF or is corrupted.');
   return m || T('Bilinmeyen hata', 'Unknown error');
 }

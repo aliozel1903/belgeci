@@ -102,7 +102,7 @@ export async function ocr(file, { langs = 'tur+eng', out = 'pdf' }, progress) {
   });
   try {
     const isPdf = extOf(file.name) === 'pdf';
-    const view = isPdf ? await openView(file.bytes, file.name) : null;
+    const view = isPdf ? await openView(file.bytes, file.name, 'copy') : null;
     total = view ? view.numPages : 1;
     const texts = [];
     const outDoc = await lib().PDFDocument.create();

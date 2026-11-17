@@ -15,8 +15,29 @@ function askPassword(name, wrong) {
   return window.prompt((wrong ? T('Şifre yanlış. ', 'Wrong password. ') : '') + T(`"${name || 'PDF'}" şifreli. Açma şifresini girin:`, `"${name || 'PDF'}" is encrypted. Enter its password:`));
 }
 
-/** pdf.js belgesi aç (görüntüleme / metin çıkarma) */
-export async function openView(bytes, name) {
+// pdf.js izin bayrakları (PDF belirtimi, Tablo 22)
+const PERM = { MODIFY: 8, COPY: 16, ASSEMBLE: 1024 };
+/**
+ * Belgenin yazarı bir işleme izin vermemişse durdurur. Kısıtlamalı (sahip şifreli) PDF'lerde
+ * koruma aşılmaz; yalnızca görüntülemeye izin verilir.
+ * need: 'modify' (içerik değiştirme) | 'assemble' (sayfa ekle/sil/sırala) | 'copy' (metin/görsel çıkarma)
+ */
+export async function checkPermissions(view, need, name) {
+  if (!need) return;
+  const perms = await view.getPermissions();
+  if (!perms) return; // şifresiz ya da kısıtlamasız
+  const ok = need === 'copy' ? perms.includes(PERM.COPY)
+    : need === 'assemble' ? perms.includes(PERM.ASSEMBLE) || perms.includes(PERM.MODIFY)
+    : perms.includes(PERM.MODIFY);
+  if (ok) return;
+  const what = need === 'copy' ? T('içeriğinin kopyalanmasına', 'copying its content') : T('düzenlenmesine', 'editing');
+  throw new Error(T(
+    `"${name || 'PDF'}" belgesinin yazarı ${what} izin vermemiş. Belgeci yazarın koyduğu kısıtlamaları aşmaz. Belgenin sahibiyseniz kısıtlamayı, belgeyi oluşturduğunuz programdan kaldırın.`,
+    `The author of "${name || 'PDF'}" does not allow ${what}. Belgeci does not bypass restrictions set by a document's author. If you own the document, remove the restriction in the program that created it.`));
+}
+
+/** pdf.js belgesi aç (görüntüleme / metin çıkarma). need verilirse yazar izinleri denetlenir. */
+export async function openView(bytes, name, need) {
   let password = passwords.get(bytes);
   for (let attempt = 0; ; attempt++) {
     try {
@@ -27,6 +48,7 @@ export async function openView(bytes, name) {
         isEvalSupported: false,
       }).promise;
       if (password != null) passwords.set(bytes, password);
+      try { await checkPermissions(doc, need, name); } catch (e) { doc.destroy(); throw e; }
       return doc;
     } catch (e) {
       if (e?.name !== 'PasswordException') throw e;
@@ -36,8 +58,11 @@ export async function openView(bytes, name) {
   }
 }
 
-/** pdf-lib belgesi yükle. Şifreliyse şifre sorar ve şifresi çözülmüş bir kopya döndürür. */
-export async function loadDoc(bytes, name) {
+/**
+ * pdf-lib belgesi yükle. Şifreliyse şifre sorar, yazar izinlerini denetler ve şifresi çözülmüş bir kopya döndürür.
+ * need: 'modify' | 'assemble' (bkz. checkPermissions)
+ */
+export async function loadDoc(bytes, name, need = 'modify') {
   const { PDFDocument } = lib();
   try {
     return await PDFDocument.load(bytes);
@@ -49,6 +74,8 @@ export async function loadDoc(bytes, name) {
     try {
       const enc = await PDFDocument.load(bytes, { password });
       passwords.set(bytes, password);
+      const view = await openView(bytes, name, need);
+      view.destroy();
       const out = await PDFDocument.create();
       (await out.copyPages(enc, enc.getPageIndices())).forEach((p) => out.addPage(p));
       return out;
@@ -257,18 +284,21 @@ export async function protect(bytes, { password, allowPrint = true, allowCopy = 
   return doc.save({ useObjectStreams: false });
 }
 
-export async function unlock(bytes, password) {
+export async function unlock(bytes, password, name) {
   const { PDFDocument } = lib();
-  let enc;
-  try { enc = await PDFDocument.load(bytes); } // zaten şifresiz
-  catch (e) {
-    if (!/encrypted/i.test(e.message)) throw e;
-    try { enc = await PDFDocument.load(bytes, { password: password || '' }); }
-    catch (e2) {
-      if (/password/i.test(e2.message)) throw new Error(T('Şifre yanlış.', 'Wrong password.'));
-      throw e2;
-    }
+  let plain = false;
+  try { await PDFDocument.load(bytes); plain = true; } catch (e) { if (!/encrypted/i.test(e.message)) throw e; }
+  if (plain) throw new Error(T('Bu PDF zaten şifresiz.', 'This PDF is not protected.'));
+  let enc, used;
+  // Girilen şifreyi, sonra boş şifreyi dene (açılış şifresi olmayan belgelerde kullanıcı yine de bir şey yazmış olabilir)
+  for (const pw of password ? [password, ''] : ['']) {
+    try { enc = await PDFDocument.load(bytes, { password: pw }); used = pw; break; }
+    catch (e) { if (!/password/i.test(e.message)) throw e; }
   }
+  if (!enc) throw new Error(password ? T('Şifre yanlış.', 'Incorrect password.') : T('Bu PDF açılış şifresiyle korunuyor; şifreyi girin.', 'This PDF needs an open password; please enter it.'));
+  passwords.set(bytes, used);
+  // Açılış şifresi kaldırılır; yazarın koyduğu düzenleme/kopyalama kısıtlamaları aşılmaz.
+  (await openView(bytes, name, 'modify')).destroy();
   const out = await PDFDocument.create();
   (await out.copyPages(enc, enc.getPageIndices())).forEach((p) => out.addPage(p));
   return saveDoc(out);
@@ -276,7 +306,7 @@ export async function unlock(bytes, password) {
 
 /** PDF → görseller. Dönen: [{name, bytes}] */
 export async function pdfToImages(bytes, { format = 'jpg', dpi = 150, pages }, name, progress) {
-  const view = await openView(bytes, name);
+  const view = await openView(bytes, name, 'copy');
   const list = pages || Array.from({ length: view.numPages }, (_, i) => i);
   const out = [];
   const pad = String(view.numPages).length;
@@ -292,7 +322,7 @@ export async function pdfToImages(bytes, { format = 'jpg', dpi = 150, pages }, n
 }
 
 export async function extractText(bytes, name, progress) {
-  const view = await openView(bytes, name);
+  const view = await openView(bytes, name, 'copy');
   const parts = [];
   for (let i = 1; i <= view.numPages; i++) {
     progress?.(null, i / view.numPages);
@@ -322,7 +352,7 @@ export async function compress(bytes, { mode = 'images', level = 'medium' }, nam
   const cfg = { low: { q: 0.78, max: 2200, dpi: 150 }, medium: { q: 0.62, max: 1600, dpi: 120 }, high: { q: 0.45, max: 1100, dpi: 96 } }[level] || { q: 0.62, max: 1600, dpi: 120 };
   const { PDFDocument, PDFName, PDFRawStream, PDFArray, PDFDict, PDFNumber } = lib();
   if (mode === 'raster') {
-    const view = await openView(bytes, name);
+    const view = await openView(bytes, name, 'modify');
     const out = await PDFDocument.create();
     for (let i = 1; i <= view.numPages; i++) {
       progress?.(T(`Sayfa ${i} / ${view.numPages}`, `Page ${i} / ${view.numPages}`), (i - 1) / view.numPages);

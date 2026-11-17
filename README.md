@@ -1,9 +1,9 @@
-# PDF Atölyesi
+# Belgeci
 
 Ücretsiz, açık kaynak PDF araç seti. Reklam yok, hesap yok, dosya sınırı yok.
 **Dosyalarınız hiçbir sunucuya yüklenmez**; bütün işlemler tarayıcınızda, kendi cihazınızda yapılır.
 
-Hem **web sitesi** olarak (GitHub Pages) hem de **bilgisayarda yerel** olarak çalışır. Arayüz Türkçe ve İngilizcedir.
+Hem **web sitesi** olarak (Cloudflare Pages) hem de **bilgisayarda yerel** olarak çalışır. Arayüz Türkçe ve İngilizcedir.
 
 ## Araçlar
 
@@ -22,28 +22,34 @@ Hem **web sitesi** olarak (GitHub Pages) hem de **bilgisayarda yerel** olarak ç
 | İşaretle | Filigran, Sayfa Numarası | |
 | Güvenlik | Sıkıştır, Şifrele, Şifre Kaldır | |
 
-### Örnek: imzalı sayfayı belgeye geri koymak
+### Örnek: belgedeki bir sayfayı taranmış haliyle değiştirmek
 
 1. **Sayfa Düzenleyici**'yi aç, 100 sayfalık PDF'i bırak.
-2. 60. sayfanın üzerine gel, **Değiştir** (↻) düğmesine bas ve taranmış imzalı sayfayı (PDF ya da fotoğraf) seç.
-3. **PDF'i indir**. İmzasız sayfa gitti, yerine imzalısı geldi.
+2. 60. sayfanın üzerine gel, **Değiştir** (↻) düğmesine bas ve o sayfanın taranmış halini (PDF ya da fotoğraf) seç.
+3. **PDF'i indir**. Eski sayfa çıktı, yerine taranmış sayfa geldi.
 
 ## Kullanım
 
-### 1) Web sürümü (GitHub Pages)
+### 1) Web sürümü (Cloudflare Pages)
 
-Bu depoyu GitHub'a yükleyin, sonra **Settings → Pages → Source: GitHub Actions** seçin.
-`main` dalına her gönderimde `.github/workflows/pages.yml` iş akışı `web/` klasörünü yayınlar.
+1. Cloudflare panelinde **Workers & Pages → Create → Pages → Connect to Git** ile bu depoyu seçin.
+2. Ayarlar: **Framework preset:** None · **Build command:** boş · **Build output directory:** `web`
+3. **Save and Deploy**. Site `https://<proje-adı>.pages.dev` adresinde yayına girer; `main` dalına her gönderimde kendiliğinden güncellenir.
 
-`web/` klasörü tamamen statiktir; Netlify, Vercel, Cloudflare Pages gibi herhangi bir statik barındırmaya da olduğu gibi konabilir (derleme adımı yoktur).
+**Kendi alan adınız:** projede **Custom domains → Set up a custom domain** ile `belgeci.alanadiniz.com` gibi bir alt alan adı ekleyin
+ve alan adınızın DNS panelinde bu alt alan adı için `<proje-adı>.pages.dev` adresine bir **CNAME** kaydı açın.
+Alt alan adı kullanıldığında ana alan adınız başka işler için boşta kalır.
+
+`web/` klasörü tamamen statiktir (derleme adımı yoktur); Netlify, Vercel ya da GitHub Pages gibi herhangi bir statik barındırmaya da olduğu gibi konabilir.
+`web/_headers` dosyası Cloudflare Pages'e güvenlik ve önbellek başlıklarını bildirir.
 Site telefona/bilgisayara uygulama gibi kurulabilir (PWA) ve bir kez açıldıktan sonra çevrimdışı da çalışır.
 
 ### 2) Yerel sürüm
 
 Tek gereksinim [Python 3](https://www.python.org/downloads/) (ek paket kurulmaz).
 
-- **macOS:** `PDF Atölyesi.command` dosyasına çift tıklayın.
-- **Windows:** `PDF Atolyesi.bat` dosyasına çift tıklayın.
+- **macOS:** `Belgeci.command` dosyasına çift tıklayın.
+- **Windows:** `Belgeci.bat` dosyasına çift tıklayın.
 - **Linux / terminal:**
 
 ```bash
@@ -68,6 +74,14 @@ Bilgisayarınızda [LibreOffice](https://tr.libreoffice.org/) kuruluysa yerel s�
 - **Sıkıştır:** "Önerilen" yöntem yalnızca gömülü JPEG görselleri küçültür; zaten küçük ya da yalnızca metin içeren PDF'lerde kazanç olmayabilir.
 - Şifreleme standart PDF parola korumasıdır; şifre kaldırmak için şifreyi bilmeniz gerekir.
 
+## Yasal uyarı
+
+- Belgeci bağımsız, gönüllü bir açık kaynak projedir. **UYAP, T.C. Adalet Bakanlığı, Adobe veya başka bir kurum/şirketle bağlantısı yoktur**; bu adlar yalnızca uyumlu olunan dosya biçimlerini tanımlamak için geçer.
+- Yazılım MIT lisansıyla **"olduğu gibi"** sunulur; hiçbir garanti verilmez. Özellikle mahkemeye, resmî kuruma ya da karşı tarafa gönderilecek belgelerde dönüştürülmüş çıktıyı kullanmadan önce mutlaka kontrol edin.
+- Uygulamayı yalnızca **üzerinde hakkınız olan** belgelerde kullanın. Şifre Kaldır aracı yalnızca açılış şifresini bildiğiniz belgeler içindir. Belgeci, yazarın koyduğu düzenleme/kopyalama kısıtlamalarını **aşmaz**: böyle belgeler görüntülenebilir ama düzenlenemez, dönüştürülemez.
+- Dosyalar tarayıcıda işlenir ve hiçbir sunucuya gönderilmez; uygulama çerez, hesap, analiz/izleme kullanmaz. Tek istisna OCR'dır: ilk kullanımda OCR motoru ve dil verisi jsDelivr CDN'inden indirilir (belgeniz gönderilmez).
+- Üçüncü taraf bileşenlerin lisansları: [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
+
 ## Proje yapısı
 
 ```
@@ -87,6 +101,9 @@ Derleme adımı yoktur: dosyayı düzenleyip sayfayı yenilemek yeterlidir.
 
 ## Kullanılan açık kaynak bileşenler
 
+Tam lisans metinleri: [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md)
+
+
 [pdf-lib (@cantoo)](https://github.com/cantoo-scribe/pdf-lib) (MIT) · [PDF.js](https://mozilla.github.io/pdf.js/) (Apache-2.0) ·
 [fontkit](https://github.com/foliojs/fontkit) (MIT) · [JSZip](https://stuk.github.io/jszip/) (MIT) ·
 [SortableJS](https://sortablejs.github.io/Sortable/) (MIT) · [Tesseract.js](https://tesseract.projectnaptha.com/) (Apache-2.0, CDN'den yüklenir) ·
@@ -100,11 +117,11 @@ Derleme adımı yoktur: dosyayı düzenleyip sayfayı yenilemek yeterlidir.
 
 ## English
 
-**PDF Atölyesi** ("PDF Workshop") is a free, open-source PDF toolkit that runs entirely in your browser — files never leave your device.
+**Belgeci** ("document clerk" in Turkish) is a free, open-source PDF toolkit that runs entirely in your browser — files never leave your device.
 Organize pages (delete / replace / insert / reorder / rotate), merge, split, compare side by side, convert between PDF, Word (DOCX),
 UYAP UDF and images, OCR, watermark, number, compress, protect and unlock.
 
-- **Web:** deploy the static `web/` folder anywhere (a GitHub Pages workflow is included).
+- **Web:** deploy the static `web/` folder anywhere — e.g. Cloudflare Pages with build output directory `web` and no build command.
 - **Local:** run `python3 server.py` (Python 3 only, no dependencies). If LibreOffice is installed, Office → PDF conversions use it for exact output.
 
 The UI is available in Turkish and English (toggle in the top bar).

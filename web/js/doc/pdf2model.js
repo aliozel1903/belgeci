@@ -7,7 +7,7 @@ import { T } from '../ui.js';
 const median = (a) => { if (!a.length) return 0; const s = [...a].sort((x, y) => x - y); return s[Math.floor(s.length / 2)]; };
 
 export async function pdfToModel(bytes, name, progress) {
-  const view = await openView(bytes, name);
+  const view = await openView(bytes, name, 'copy');
   const model = newModel();
   const pages = [];
   for (let n = 1; n <= view.numPages; n++) {

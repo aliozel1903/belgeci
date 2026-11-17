@@ -1,5 +1,5 @@
 #!/bin/bash
-# macOS: çift tıklayarak PDF Atölyesi'ni başlatır.
+# macOS: çift tıklayarak Belgeci'yi başlatır.
 cd "$(dirname "$0")"
 if ! command -v python3 >/dev/null 2>&1; then
   echo "Python 3 bulunamadı. https://www.python.org/downloads/ adresinden kurun."

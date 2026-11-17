@@ -1,4 +1,4 @@
-// PDF Atölyesi — ana uygulama: yönlendirme, ana sayfa, tema ve dil.
+// Belgeci — ana uygulama: yönlendirme, ana sayfa, tema ve dil.
 import { T, L, h, icon, getLang, setLang, dropzone, modal, extOf, toast } from './ui.js';
 import { TOOLS, CATS, toolById, renderSimpleTool } from './tools.js';
 import { engine, checkEngine } from './convert.js';
@@ -17,7 +17,7 @@ const isDark = () => (theme ? theme === 'dark' : matchMedia('(prefers-color-sche
 
 function header() {
   return h('header.top',
-    h('a.brand', { href: '#/' }, h('span.brand-mark', icon('logo')), h('span', 'PDF Atölyesi')),
+    h('a.brand', { href: '#/' }, h('span.brand-mark', icon('logo')), h('span', 'Belgeci')),
     h('div.top-right',
       engine.office ? h('span.pill.ok', { title: T('LibreOffice bulundu: Office dönüşümleri birebir yapılır.', 'LibreOffice found: Office conversions are exact.') }, T('Yerel motor açık', 'Local engine on')) : null,
       h('span.pill', { title: T('Dosyaların tarayıcında işlenir, hiçbir sunucuya yüklenmez.', 'Your files are processed in your browser and never uploaded.') }, icon('shield'), T('Dosyalar cihazında kalır', 'Files stay on your device')),
@@ -61,7 +61,8 @@ function home() {
       h('div.search', icon('search'), q)),
     sections,
     h('footer.foot',
-      h('span', T('PDF Atölyesi · açık kaynak (MIT) · reklamsız, hesapsız, sınırsız', 'PDF Atölyesi · open source (MIT) · no ads, no accounts, no limits'))));
+      h('p', T('Belgeci · açık kaynak (MIT) · reklamsız, hesapsız, sınırsız', 'Belgeci · open source (MIT) · no ads, no accounts, no limits')),
+      h('p.disclaimer', T('Bağımsız bir projedir; UYAP / T.C. Adalet Bakanlığı veya başka bir kurumla bağlantısı yoktur. Yazılım "olduğu gibi" sunulur, dönüştürülen belgeleri kullanmadan önce kontrol edin. Yalnızca hakkınız olan belgeleri işleyin.', 'An independent project, not affiliated with UYAP / the Turkish Ministry of Justice or any other institution. Provided "as is" — check converted documents before use. Only process documents you have the right to.'))));
 }
 
 async function toolPage(id) {
@@ -77,7 +78,7 @@ async function toolPage(id) {
   if (tool.id === 'organize') (await import('./organizer.js')).renderOrganizer(body, files);
   else if (tool.id === 'compare') (await import('./compare.js')).renderCompare(body, files);
   else renderSimpleTool(tool, body, files);
-  document.title = `${L(tool.title)} — PDF Atölyesi`;
+  document.title = `${L(tool.title)} — Belgeci`;
   return main;
 }
 
@@ -85,7 +86,7 @@ async function render() {
   const m = location.hash.match(/^#\/t\/([\w-]+)/);
   document.querySelectorAll('.modal, .menu, .busy').forEach((e) => e.remove());
   const page = m ? await toolPage(m[1]) : home();
-  if (!m) document.title = T('PDF Atölyesi — Ücretsiz PDF araçları', 'PDF Atölyesi — Free PDF tools');
+  if (!m) document.title = T('Belgeci — Ücretsiz PDF araçları', 'Belgeci — Free PDF tools');
   app.replaceChildren(header(), page);
   window.scrollTo(0, 0);
 }

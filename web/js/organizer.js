@@ -29,7 +29,7 @@ export function renderOrganizer(root, preset = []) {
         b.set(f.name);
         const raw = { name: f.name, bytes: await readFile(f) };
         const bytes = await core.asPdfBytes(raw);
-        const view = await core.openView(bytes, f.name);
+        const view = await core.openView(bytes, f.name, 'assemble');
         const src = { id: 's' + (++S.seq), name: f.name, bytes, view, n: view.numPages, color: COLORS[S.sources.length % COLORS.length], label: letter(S.sources.length) };
         S.sources.push(src);
         out.push(src);
@@ -114,7 +114,7 @@ export function renderOrganizer(root, preset = []) {
     for (const s of S.sources) {
       const idxs = list.filter((p) => p.src === s.id).map((p) => p.idx);
       if (!idxs.length) continue;
-      const doc = await core.loadDoc(s.bytes, s.name);
+      const doc = await core.loadDoc(s.bytes, s.name, 'assemble');
       copies.set(s.id, await out.copyPages(doc, idxs));
     }
     for (const p of list) {

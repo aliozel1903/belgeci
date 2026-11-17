@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""PDF Atölyesi — yerel sunucu.
+"""Belgeci — yerel sunucu.
 
 Uygulamayı bilgisayarında çalıştırır (http://127.0.0.1:8844) ve LibreOffice kuruluysa
 Word/Excel/PowerPoint → PDF dönüşümlerini birebir yapan "yerel motor"u sağlar.
@@ -59,7 +59,7 @@ def convert(data: bytes, name: str, to: str) -> bytes:
         raise ValueError(f"Desteklenmeyen dosya türü: .{ext}")
     if to not in {"pdf", "docx"}:
         raise ValueError("Geçersiz hedef biçim")
-    with tempfile.TemporaryDirectory(prefix="pdfatolyesi-") as tmp:
+    with tempfile.TemporaryDirectory(prefix="belgeci-") as tmp:
         src = Path(tmp) / f"girdi.{ext}"
         src.write_bytes(data)
         out = Path(tmp) / f"girdi.{to}"
@@ -87,7 +87,7 @@ def convert(data: bytes, name: str, to: str) -> bytes:
 
 
 class Handler(SimpleHTTPRequestHandler):
-    server_version = "PDFAtolyesi/1.0"
+    server_version = "Belgeci/1.0"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(ROOT), **kwargs)
@@ -163,7 +163,7 @@ class Handler(SimpleHTTPRequestHandler):
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="PDF Atölyesi yerel sunucusu")
+    ap = argparse.ArgumentParser(description="Belgeci yerel sunucusu")
     ap.add_argument("--port", type=int, default=int(os.environ.get("PORT", 8844)))
     ap.add_argument("--no-browser", action="store_true")
     args = ap.parse_args()
@@ -180,7 +180,7 @@ def main() -> None:
     if httpd is None:
         sys.exit("Boş port bulunamadı")
     url = f"http://127.0.0.1:{port}/"
-    print(f"PDF Atölyesi çalışıyor: {url}")
+    print(f"Belgeci çalışıyor: {url}")
     print("Yerel motor (LibreOffice): " + ("AÇIK — " + SOFFICE if SOFFICE else "kapalı (LibreOffice kurulursa Word → PDF birebir olur)"))
     print("Kapatmak için Ctrl+C")
     if not args.no_browser:
