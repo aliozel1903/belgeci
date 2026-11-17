@@ -1,0 +1,9 @@
+// Cloudflare Workers ayarı: web/ klasörünü statik site olarak yayınlar (derleme adımı yok).
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "belgeci",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./web"
+  }
+}

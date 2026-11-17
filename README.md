@@ -3,7 +3,7 @@
 Ücretsiz, açık kaynak PDF araç seti. Reklam yok, hesap yok, dosya sınırı yok.
 **Dosyalarınız hiçbir sunucuya yüklenmez**; bütün işlemler tarayıcınızda, kendi cihazınızda yapılır.
 
-Hem **web sitesi** olarak (Cloudflare Pages) hem de **bilgisayarda yerel** olarak çalışır. Arayüz Türkçe ve İngilizcedir.
+Hem **web sitesi** olarak (Cloudflare) hem de **bilgisayarda yerel** olarak çalışır. Arayüz Türkçe ve İngilizcedir.
 
 ## Araçlar
 
@@ -30,18 +30,18 @@ Hem **web sitesi** olarak (Cloudflare Pages) hem de **bilgisayarda yerel** olara
 
 ## Kullanım
 
-### 1) Web sürümü (Cloudflare Pages)
+### 1) Web sürümü (Cloudflare)
 
-1. Cloudflare panelinde **Workers & Pages → Create → Pages → Connect to Git** ile bu depoyu seçin.
-2. Ayarlar: **Framework preset:** None · **Build command:** boş · **Build output directory:** `web`
-3. **Save and Deploy**. Site `https://<proje-adı>.pages.dev` adresinde yayına girer; `main` dalına her gönderimde kendiliğinden güncellenir.
+1. Cloudflare panelinde **Workers & Pages → Create → Import a repository** ile bu depoyu seçin.
+2. Ayarları olduğu gibi bırakın (deploy komutu `npx wrangler deploy`). Yayınlanacak klasör `wrangler.jsonc` dosyasında `web` olarak tanımlıdır; derleme adımı yoktur.
+3. **Deploy**. Site `https://belgeci.<hesap-adı>.workers.dev` adresinde yayına girer; `main` dalına her gönderimde kendiliğinden güncellenir.
 
-**Kendi alan adınız:** projede **Custom domains → Set up a custom domain** ile `belgeci.alanadiniz.com` gibi bir alt alan adı ekleyin
-ve alan adınızın DNS panelinde bu alt alan adı için `<proje-adı>.pages.dev` adresine bir **CNAME** kaydı açın.
+**Kendi alan adınız:** projede **Settings → Domains & Routes → Add → Custom domain** ile `belgeci.alanadiniz.com` gibi bir alt alan adı ekleyin
+ekleyin (alan adının DNS'i Cloudflare'de olmalıdır).
 Alt alan adı kullanıldığında ana alan adınız başka işler için boşta kalır.
 
 `web/` klasörü tamamen statiktir (derleme adımı yoktur); Netlify, Vercel ya da GitHub Pages gibi herhangi bir statik barındırmaya da olduğu gibi konabilir.
-`web/_headers` dosyası Cloudflare Pages'e güvenlik ve önbellek başlıklarını bildirir.
+`web/_headers` dosyası Cloudflare'e güvenlik ve önbellek başlıklarını bildirir.
 Site telefona/bilgisayara uygulama gibi kurulabilir (PWA) ve bir kez açıldıktan sonra çevrimdışı da çalışır.
 
 ### 2) Yerel sürüm
@@ -121,7 +121,7 @@ Tam lisans metinleri: [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md)
 Organize pages (delete / replace / insert / reorder / rotate), merge, split, compare side by side, convert between PDF, Word (DOCX),
 UYAP UDF and images, OCR, watermark, number, compress, protect and unlock.
 
-- **Web:** deploy the static `web/` folder anywhere — e.g. Cloudflare Pages with build output directory `web` and no build command.
+- **Web:** deploy the static `web/` folder anywhere — e.g. Cloudflare Workers via the included `wrangler.jsonc` (no build step).
 - **Local:** run `python3 server.py` (Python 3 only, no dependencies). If LibreOffice is installed, Office → PDF conversions use it for exact output.
 
 The UI is available in Turkish and English (toggle in the top bar).
