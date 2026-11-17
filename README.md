@@ -37,7 +37,7 @@ Hem **web sitesi** olarak (Cloudflare) hem de **bilgisayarda yerel** olarak çal
 3. **Deploy**. Site `https://belgeci.<hesap-adı>.workers.dev` adresinde yayına girer; `main` dalına her gönderimde kendiliğinden güncellenir.
 
 **Kendi alan adınız:** projede **Settings → Domains & Routes → Add → Custom domain** ile `belgeci.alanadiniz.com` gibi bir alt alan adı ekleyin
-ekleyin (alan adının DNS'i Cloudflare'de olmalıdır).
+(alan adının DNS'i Cloudflare'de olmalıdır).
 Alt alan adı kullanıldığında ana alan adınız başka işler için boşta kalır.
 
 `web/` klasörü tamamen statiktir (derleme adımı yoktur); Netlify, Vercel ya da GitHub Pages gibi herhangi bir statik barındırmaya da olduğu gibi konabilir.
