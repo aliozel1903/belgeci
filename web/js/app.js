@@ -37,7 +37,7 @@ function chooseTool(files) {
 }
 
 function home() {
-  const q = h('input.search-input', { type: 'search', placeholder: T('Araç ara… (ör. birleştir, udf, word)', 'Search tools… (e.g. merge, udf, word)'), 'aria-label': T('Araç ara', 'Search tools') });
+  const q = h('input.search-input', { type: 'search', placeholder: T('Araç ara… (ör. birleştir, böl, word)', 'Search tools… (e.g. merge, split, word)'), 'aria-label': T('Araç ara', 'Search tools') });
   const sections = h('div.sections');
   const card = (t) => h('a.card.' + t.hue + (t.featured ? '.featured' : ''), { href: '#/t/' + t.id },
     h('span.card-ico', icon(t.icon)),
@@ -62,7 +62,7 @@ function home() {
     sections,
     h('footer.foot',
       h('p', T('Belgeci · açık kaynak (MIT) · reklamsız, hesapsız, sınırsız', 'Belgeci · open source (MIT) · no ads, no accounts, no limits')),
-      h('p.disclaimer', T('Bağımsız bir projedir; UYAP / T.C. Adalet Bakanlığı veya başka bir kurumla bağlantısı yoktur. Yazılım "olduğu gibi" sunulur, dönüştürülen belgeleri kullanmadan önce kontrol edin. Yalnızca hakkınız olan belgeleri işleyin.', 'An independent project, not affiliated with UYAP / the Turkish Ministry of Justice or any other institution. Provided "as is" — check converted documents before use. Only process documents you have the right to.'))));
+      h('p.disclaimer', T('Bağımsız bir projedir; herhangi bir kurum ya da şirketle bağlantısı yoktur. Yazılım "olduğu gibi" sunulur, dönüştürülen belgeleri kullanmadan önce kontrol edin. Yalnızca hakkınız olan belgeleri işleyin.', 'An independent project, not affiliated with any institution or company. Provided "as is" — check converted documents before use. Only process documents you have the right to.'))));
 }
 
 async function toolPage(id) {

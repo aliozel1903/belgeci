@@ -19,7 +19,6 @@ async function conv(files, to, progress) {
   out.via = via;
   return out;
 }
-const browserNote = ['Tarayıcı içi dönüşüm metni, yazı biçimlerini, tabloları ve görselleri aktarır; karmaşık sayfa düzenleri birebir aynı olmayabilir.', 'In-browser conversion keeps text, formatting, tables and images; complex layouts may not match exactly.'];
 
 export const CATS = [
   ['organize', ['Düzenle', 'Organize']],
@@ -83,19 +82,6 @@ export const TOOLS = [
   { id: 'pdf2word', cat: 'convert', icon: 'word', hue: 'blue', accept: '.pdf', multiple: true,
     title: ['PDF → Word', 'PDF to Word'], desc: ['PDF\'i düzenlenebilir DOCX belgesine çevir.', 'Turn a PDF into an editable DOCX.'], action: ['Word\'e çevir', 'Convert to Word'],
     note: ['Metin, yazı biçimi ve paragraflar aktarılır. Taranmış sayfalar görsel olarak eklenir; önce OCR yaparsanız metne dönüşür.', 'Text, styles and paragraphs are carried over. Scanned pages are added as images; run OCR first to get text.'],
-    run: (files, o, p) => conv(files, 'docx', p) },
-  { id: 'udf2pdf', cat: 'convert', icon: 'udf', hue: 'amber', accept: '.udf', multiple: true,
-    title: ['UDF → PDF', 'UDF to PDF'], desc: ['UYAP belgelerini (.udf) PDF\'e çevir.', 'Convert UYAP documents (.udf) to PDF.'], action: ['PDF\'e çevir', 'Convert to PDF'], note: browserNote,
-    run: (files, o, p) => conv(files, 'pdf', p) },
-  { id: 'pdf2udf', cat: 'convert', icon: 'udf', hue: 'amber', accept: '.pdf', multiple: true,
-    title: ['PDF → UDF', 'PDF to UDF'], desc: ['PDF\'i UYAP Doküman Editörü\'nde açılabilen UDF\'e çevir.', 'Convert a PDF to UDF for the UYAP Document Editor.'], action: ['UDF\'e çevir', 'Convert to UDF'],
-    note: ['Metin tabanlı PDF\'ler düzenlenebilir metin olarak, taranmış sayfalar görsel olarak aktarılır.', 'Text PDFs become editable text; scanned pages are embedded as images.'],
-    run: (files, o, p) => conv(files, 'udf', p) },
-  { id: 'word2udf', cat: 'convert', icon: 'udf', hue: 'amber', accept: '.docx', multiple: true,
-    title: ['Word → UDF', 'Word to UDF'], desc: ['DOCX belgesini UYAP biçimine (.udf) çevir.', 'Convert DOCX to the UYAP format (.udf).'], action: ['UDF\'e çevir', 'Convert to UDF'], note: browserNote,
-    run: (files, o, p) => conv(files, 'udf', p) },
-  { id: 'udf2word', cat: 'convert', icon: 'word', hue: 'amber', accept: '.udf', multiple: true,
-    title: ['UDF → Word', 'UDF to Word'], desc: ['UYAP belgesini (.udf) Word\'de düzenlenebilir DOCX\'e çevir.', 'Convert a UYAP document (.udf) to an editable DOCX.'], action: ['Word\'e çevir', 'Convert to Word'], note: browserNote,
     run: (files, o, p) => conv(files, 'docx', p) },
   { id: 'img2pdf', cat: 'convert', icon: 'image', hue: 'green', accept: IMG, multiple: true,
     title: ['Görsel → PDF', 'Image to PDF'], desc: ['JPG, PNG ve diğer görselleri (telefonla çekilen taramaları) PDF yap.', 'Turn JPG, PNG and other images (phone scans) into a PDF.'], action: ['PDF oluştur', 'Create PDF'],

@@ -2,7 +2,6 @@
 import { T, extOf } from './ui.js';
 import { lib, openView, renderPage, canvasBlob, blobBytes, saveDoc } from './pdfcore.js';
 import { modelToPdf, modelToText } from './doc/layout.js';
-import { parseUdf, modelToUdf } from './doc/udf.js';
 import { parseDocx, modelToDocx } from './doc/docx.js';
 import { pdfToModel } from './doc/pdf2model.js';
 
@@ -28,7 +27,6 @@ export const OFFICE_EXTS = ['doc', 'docx', 'odt', 'rtf', 'xls', 'xlsx', 'ods', '
 /** Herhangi bir belgeyi ortak modele çevir */
 async function toModel(file, progress) {
   const ext = extOf(file.name);
-  if (ext === 'udf') return parseUdf(file.bytes);
   if (ext === 'docx') return parseDocx(file.bytes);
   if (ext === 'pdf') return pdfToModel(file.bytes, file.name, progress);
   if (ext === 'txt') {
@@ -42,7 +40,7 @@ async function toModel(file, progress) {
 }
 
 /**
- * Dönüştür. to: 'pdf' | 'docx' | 'udf' | 'txt'
+ * Dönüştür. to: 'pdf' | 'docx' | 'txt'
  * Dönen: { bytes, via: 'engine' | 'browser' }
  */
 export async function convert(file, to, { preferEngine = true } = {}, progress) {
@@ -53,12 +51,8 @@ export async function convert(file, to, { preferEngine = true } = {}, progress) 
     try {
       if (to === 'pdf' && OFFICE_EXTS.includes(ext)) return { bytes: await engineConvert(file.bytes, file.name, 'pdf'), via: 'engine' };
       if (to === 'docx' && ext === 'pdf' && engine.pdf2docx) return { bytes: await engineConvert(file.bytes, file.name, 'docx'), via: 'engine' };
-      if (to === 'udf' && ['doc', 'odt', 'rtf'].includes(ext)) {
-        const docx = await engineConvert(file.bytes, file.name, 'docx');
-        return { bytes: await modelToUdf(await parseDocx(docx)), via: 'engine' };
-      }
     } catch (e) {
-      if (!['docx', 'udf', 'txt'].includes(ext)) throw e;
+      if (!['docx', 'txt'].includes(ext)) throw e;
       console.warn('Yerel motor başarısız, tarayıcı motoruna geçiliyor:', e);
     }
   }
@@ -67,7 +61,6 @@ export async function convert(file, to, { preferEngine = true } = {}, progress) 
   let bytes;
   if (to === 'pdf') bytes = await modelToPdf(model, progress);
   else if (to === 'docx') bytes = await modelToDocx(model);
-  else if (to === 'udf') bytes = await modelToUdf(model);
   else if (to === 'txt') bytes = new TextEncoder().encode(modelToText(model));
   else throw new Error('Bilinmeyen hedef: ' + to);
   return { bytes, via: 'browser' };

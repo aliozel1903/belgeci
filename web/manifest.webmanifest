@@ -1,7 +1,7 @@
 {
   "name": "Belgeci",
   "short_name": "Belgeci",
-  "description": "Ücretsiz PDF araçları: böl, birleştir, sayfa değiştir, UDF/Word dönüştür, sıkıştır.",
+  "description": "Ücretsiz PDF araçları: böl, birleştir, sayfa değiştir, Word dönüştür, sıkıştır.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

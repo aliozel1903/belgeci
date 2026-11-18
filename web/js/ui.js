@@ -54,7 +54,6 @@ export const ICONS = {
   compress: P('<path d="M4 9h16M4 15h16M12 3v4M10 5l2 2 2-2M12 21v-4M10 19l2-2 2 2"/>'),
   ocr: P('<path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M8 9h8M8 12h8M8 15h5"/>'),
   word: P('<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="m8.5 12 1.2 5 2.3-4 2.3 4 1.2-5"/>'),
-  udf: P('<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 12v3a3 3 0 0 0 6 0v-3"/>'),
   pdf: P('<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 17v-5h1.5a1.5 1.5 0 0 1 0 3H9M14 12v5"/>'),
   image: P('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 15-5-5L5 20"/>'),
   text: P('<path d="M5 6h14M5 10h14M5 14h9M5 18h11"/>'),
@@ -99,7 +98,7 @@ export const extOf = (name) => (name.match(/\.([^.]+)$/)?.[1] || '').toLowerCase
 /** File/Blob ya da {name, bytes} nesnesinden bayt dizisi (File.bytes() yöntemiyle karışmaması için tür denetimi yapılır) */
 export const readFile = async (file) => (file instanceof Blob ? new Uint8Array(await file.arrayBuffer()) : file.bytes);
 
-const MIME = { pdf: 'application/pdf', zip: 'application/zip', txt: 'text/plain;charset=utf-8', docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', udf: 'application/octet-stream', jpg: 'image/jpeg', png: 'image/png' };
+const MIME = { pdf: 'application/pdf', zip: 'application/zip', txt: 'text/plain;charset=utf-8', docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', jpg: 'image/jpeg', png: 'image/png' };
 export function toBlob(data, name) {
   if (data instanceof Blob) return data;
   return new Blob([data], { type: MIME[extOf(name)] || 'application/octet-stream' });

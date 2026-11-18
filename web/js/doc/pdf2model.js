@@ -1,4 +1,4 @@
-// PDF → belge modeli (metin tabanlı, sezgisel). Word/UDF'e dönüştürmek için kullanılır.
+// PDF → belge modeli (metin tabanlı, sezgisel). Word'e dönüştürmek için kullanılır.
 // Metin içermeyen (taranmış) sayfalar tam sayfa görsel olarak aktarılır.
 import { openView, renderPage, canvasBlob, blobBytes } from '../pdfcore.js';
 import { newModel } from './layout.js';

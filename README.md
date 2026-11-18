@@ -14,8 +14,6 @@ Hem **web sitesi** olarak (Cloudflare) hem de **bilgisayarda yerel** olarak çal
 | | PDF Böl | Sayfa aralıklarına göre, her N sayfada bir ya da tek tek sayfalara böler; sayfa çıkarır. |
 | | Karşılaştır | İki PDF'i yan yana gösterir, sayfaları hizalar, metin ve görsel farkları işaretler. |
 | Dönüştür | Word → PDF, PDF → Word | DOCX ↔ PDF |
-| | UDF → PDF, PDF → UDF | UYAP Doküman Editörü biçimi (.udf) ↔ PDF |
-| | Word → UDF, UDF → Word | DOCX ↔ UDF |
 | | Görsel → PDF, PDF → Görsel | JPG/PNG/WebP ↔ PDF |
 | | PDF → Metin | Düz metin çıkarır. |
 | | OCR | Taranmış PDF/fotoğrafı aranabilir PDF'e ya da metne çevirir (Türkçe destekli). |
@@ -68,15 +66,14 @@ Bilgisayarınızda [LibreOffice](https://tr.libreoffice.org/) kuruluysa yerel s�
 ## Bilinen sınırlar
 
 - **Word → PDF (tarayıcıda):** sayfa sonları Word'dekiyle aynı olmayabilir; üstbilgi/altbilgi, dipnot, metin kutusu ve karmaşık stiller aktarılmaz. Birebir sonuç için yerel motoru ya da Word'ün "PDF olarak kaydet" özelliğini kullanın.
-- **PDF → Word / UDF:** PDF bir "baskı" biçimidir; paragraflar ve hizalama sezgisel olarak çıkarılır, tablolar düz metne dönüşür. Taranmış sayfalar görsel olarak eklenir (önce OCR yapılırsa metin olur).
-- **UDF:** biçim resmî olarak belgelenmemiştir; metin, biçimlendirme, tablo, görsel, üst/altbilgi desteklenir. Üretilen dosyaları önemli işlerde UYAP Editör'de açıp kontrol edin. e-imzalı UDF'lerin imzası dönüşümde korunmaz.
+- **PDF → Word:** PDF bir "baskı" biçimidir; paragraflar ve hizalama sezgisel olarak çıkarılır, tablolar düz metne dönüşür. Taranmış sayfalar görsel olarak eklenir (önce OCR yapılırsa metin olur).
 - **OCR** ilk kullanımda motoru ve dil verisini (~15 MB) internetten indirir; belge yine cihazınızda işlenir.
 - **Sıkıştır:** "Önerilen" yöntem yalnızca gömülü JPEG görselleri küçültür; zaten küçük ya da yalnızca metin içeren PDF'lerde kazanç olmayabilir.
 - Şifreleme standart PDF parola korumasıdır; şifre kaldırmak için şifreyi bilmeniz gerekir.
 
 ## Yasal uyarı
 
-- Belgeci bağımsız, gönüllü bir açık kaynak projedir. **UYAP, T.C. Adalet Bakanlığı, Adobe veya başka bir kurum/şirketle bağlantısı yoktur**; bu adlar yalnızca uyumlu olunan dosya biçimlerini tanımlamak için geçer.
+- Belgeci bağımsız, gönüllü bir açık kaynak projedir. **Herhangi bir kurum ya da şirketle bağlantısı yoktur.**
 - Yazılım MIT lisansıyla **"olduğu gibi"** sunulur; hiçbir garanti verilmez. Özellikle mahkemeye, resmî kuruma ya da karşı tarafa gönderilecek belgelerde dönüştürülmüş çıktıyı kullanmadan önce mutlaka kontrol edin.
 - Uygulamayı yalnızca **üzerinde hakkınız olan** belgelerde kullanın. Şifre Kaldır aracı yalnızca açılış şifresini bildiğiniz belgeler içindir. Belgeci, yazarın koyduğu düzenleme/kopyalama kısıtlamalarını **aşmaz**: böyle belgeler görüntülenebilir ama düzenlenemez, dönüştürülemez.
 - Dosyalar tarayıcıda işlenir ve hiçbir sunucuya gönderilmez; uygulama çerez, hesap, analiz/izleme kullanmaz. Tek istisna OCR'dır: ilk kullanımda OCR motoru ve dil verisi jsDelivr CDN'inden indirilir (belgeniz gönderilmez).
@@ -92,7 +89,7 @@ web/                  Statik uygulama (yayınlanan klasör)
   js/compare.js       Karşılaştır
   js/tools.js         Araç kataloğu ve genel araç ekranı
   js/convert.js       Dönüşüm yönlendirici, yerel motor, OCR
-  js/doc/             Belge modeli: UDF ve DOCX okuma/yazma, PDF'ten metin modeli, PDF düzen motoru
+  js/doc/             Belge modeli: DOCX okuma/yazma, PDF'ten metin modeli, PDF düzen motoru
   vendor/, fonts/     Üçüncü taraf kütüphaneler ve yazı tipleri
 server.py             Yerel sunucu + LibreOffice köprüsü (yalnızca standart kütüphane)
 ```
@@ -119,7 +116,7 @@ Tam lisans metinleri: [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md)
 
 **Belgeci** ("document clerk" in Turkish) is a free, open-source PDF toolkit that runs entirely in your browser — files never leave your device.
 Organize pages (delete / replace / insert / reorder / rotate), merge, split, compare side by side, convert between PDF, Word (DOCX),
-UYAP UDF and images, OCR, watermark, number, compress, protect and unlock.
+and images, OCR, watermark, number, compress, protect and unlock.
 
 - **Web:** deploy the static `web/` folder anywhere — e.g. Cloudflare Workers via the included `wrangler.jsonc` (no build step).
 - **Local:** run `python3 server.py` (Python 3 only, no dependencies). If LibreOffice is installed, Office → PDF conversions use it for exact output.
