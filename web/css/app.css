@@ -239,6 +239,28 @@ input:focus, select:focus { outline: 2px solid color-mix(in srgb, var(--accent) 
 .stepper { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--muted); white-space: nowrap; }
 .stepper button { width: 24px; height: 24px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); }
 
+/* ── metin düzelt ── */
+@font-face { font-family: 'BelgeciSans'; src: url('../fonts/LiberationSans-Regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'BelgeciSans'; src: url('../fonts/LiberationSans-Bold.ttf') format('truetype'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'BelgeciSerif'; src: url('../fonts/LiberationSerif-Regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'BelgeciSerif'; src: url('../fonts/LiberationSerif-Bold.ttf') format('truetype'); font-weight: 700; font-display: swap; }
+.et-pages { display: grid; gap: 18px; justify-items: center; margin-top: 16px; }
+.et-page { position: relative; width: 100%; background: #fff; box-shadow: 0 1px 6px rgba(0, 0, 0, .25); cursor: text; }
+.et-pages.area .et-page { cursor: crosshair; touch-action: none; }
+.et-page > canvas { display: block; width: 100%; height: 100%; }
+.pg-no { position: absolute; top: 6px; right: 8px; z-index: 1; padding: 1px 7px; border-radius: 999px; background: rgba(24, 24, 27, .7); color: #fff; font-size: 11.5px; }
+.et-item { position: absolute; z-index: 2; outline: 1.5px dashed color-mix(in srgb, var(--blue) 70%, transparent); outline-offset: 1px; }
+.et-item:focus-within { outline-style: solid; outline-color: var(--blue); }
+.et-txt { position: absolute; left: 0; white-space: pre; outline: 0; cursor: text; min-width: 4px; padding-right: 1px; }
+.et-tools { position: absolute; left: -2px; bottom: calc(100% + 6px); display: none; align-items: center; gap: 2px; padding: 3px; border-radius: 9px; background: #24262b; box-shadow: var(--shadow); white-space: nowrap; z-index: 3; }
+.et-item:focus-within .et-tools, .et-item:hover .et-tools { display: flex; }
+.et-tools button { min-width: 28px; height: 26px; padding: 0 6px; border: 0; border-radius: 6px; background: transparent; color: #fff; font: 600 12px system-ui, sans-serif; }
+.et-tools button:hover, .et-tools button.on { background: rgba(255, 255, 255, .2); }
+.et-tools button.x:hover { background: var(--red); }
+.et-tools .ico { width: 14px; height: 14px; }
+.et-size { color: #b9bcc4; font: 500 11.5px system-ui, sans-serif; padding: 0 6px; }
+.et-rubber { position: absolute; z-index: 2; border: 1.5px dashed var(--blue); background: color-mix(in srgb, var(--blue) 12%, transparent); pointer-events: none; }
+
 @media (max-width: 620px) {
   .top { padding: 8px 12px; } main { padding: 18px 12px 50px; }
   .toolbar { position: static; padding: 8px; gap: 6px 8px; } .toolbar .btn { padding: 7px 10px; font-size: 13.5px; } .name-input { width: 130px !important; }

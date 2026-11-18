@@ -25,7 +25,7 @@ function header() {
       h('button.icon-btn', { onclick: () => { theme = isDark() ? 'light' : 'dark'; try { localStorage.setItem('theme', theme); } catch { /* yok say */ } applyTheme(theme); app.querySelector('header.top')?.replaceWith(header()); }, title: T('Açık / koyu tema', 'Light / dark theme'), 'aria-label': T('Tema değiştir', 'Toggle theme') }, icon(isDark() ? 'sun' : 'moon'))));
 }
 
-const acceptOf = (t) => (t.custom ? { organize: '.pdf,.jpg,.jpeg,.png,.webp,.gif,.bmp', compare: '.pdf' }[t.id] : typeof t.accept === 'function' ? t.accept() : t.accept) || '';
+const acceptOf = (t) => (t.custom ? { organize: '.pdf,.jpg,.jpeg,.png,.webp,.gif,.bmp', compare: '.pdf', edittext: '.pdf' }[t.id] : typeof t.accept === 'function' ? t.accept() : t.accept) || '';
 const accepts = (t, f) => acceptOf(t).split(',').includes('.' + extOf(f.name));
 
 function chooseTool(files) {
@@ -77,6 +77,7 @@ async function toolPage(id) {
   const files = pending; pending = [];
   if (tool.id === 'organize') (await import('./organizer.js')).renderOrganizer(body, files);
   else if (tool.id === 'compare') (await import('./compare.js')).renderCompare(body, files);
+  else if (tool.id === 'edittext') (await import('./edittext.js')).renderEditText(body, files);
   else renderSimpleTool(tool, body, files);
   document.title = `${L(tool.title)} — Belgeci`;
   return main;

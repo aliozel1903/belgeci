@@ -23,7 +23,7 @@ async function conv(files, to, progress) {
 export const CATS = [
   ['organize', ['Düzenle', 'Organize']],
   ['convert', ['Dönüştür', 'Convert']],
-  ['edit', ['Sayfa İşaretle', 'Mark Pages']],
+  ['edit', ['Metin ve İşaret', 'Text & Marks']],
   ['secure', ['Güvenlik ve Boyut', 'Security & Size']],
 ];
 
@@ -119,6 +119,8 @@ export const TOOLS = [
     } },
 
   // ── Düzelt ──
+  { id: 'edittext', cat: 'edit', icon: 'text', hue: 'violet', custom: true,
+    title: ['Metin Düzelt', 'Edit Text'], desc: ['Sayfadaki bir satıra tıkla, yazıyı değiştir. Yazım hatası, tarih, isim düzeltmek için.', 'Click a line on the page and change the text. For typos, dates, names.'] },
   { id: 'watermark', cat: 'edit', icon: 'watermark', hue: 'violet', accept: '.pdf',
     title: ['Filigran', 'Watermark'], desc: ['Sayfalara "TASLAK", "GİZLİ" gibi yazı filigranı ekle.', 'Stamp pages with text such as "DRAFT" or "CONFIDENTIAL".'], action: ['Filigran ekle', 'Add watermark'],
     options: [

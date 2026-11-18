@@ -17,7 +17,8 @@ Hem **web sitesi** olarak (Cloudflare) hem de **bilgisayarda yerel** olarak çal
 | | Görsel → PDF, PDF → Görsel | JPG/PNG/WebP ↔ PDF |
 | | PDF → Metin | Düz metin çıkarır. |
 | | OCR | Taranmış PDF/fotoğrafı aranabilir PDF'e ya da metne çevirir (Türkçe destekli). |
-| İşaretle | Filigran, Sayfa Numarası | |
+| Metin ve İşaret | **Metin Düzelt** | Sayfadaki bir satıra tıklayıp yazıyı değiştir (yazım hatası, tarih, isim); boyut ve yazı tipi otomatik eşleşir. Taranmış sayfalarda alan seçip yazılabilir. |
+| | Filigran, Sayfa Numarası | |
 | Güvenlik | Sıkıştır, Şifrele, Şifre Kaldır | |
 
 ### Örnek: belgedeki bir sayfayı taranmış haliyle değiştirmek
@@ -68,6 +69,7 @@ Bilgisayarınızda [LibreOffice](https://tr.libreoffice.org/) kuruluysa yerel s�
 - **Word → PDF (tarayıcıda):** sayfa sonları Word'dekiyle aynı olmayabilir; üstbilgi/altbilgi, dipnot, metin kutusu ve karmaşık stiller aktarılmaz. Birebir sonuç için yerel motoru ya da Word'ün "PDF olarak kaydet" özelliğini kullanın.
 - **PDF → Word:** PDF bir "baskı" biçimidir; paragraflar ve hizalama sezgisel olarak çıkarılır, tablolar düz metne dönüşür. Taranmış sayfalar görsel olarak eklenir (önce OCR yapılırsa metin olur).
 - **OCR** ilk kullanımda motoru ve dil verisini (~15 MB) internetten indirir; belge yine cihazınızda işlenir.
+- **Metin Düzelt:** eski metnin üstü zemin rengiyle örtülüp yenisi yazılır; eski metin varsayılan olarak dosyada kalır ve kopyalanarak görülebilir. "Eski metni dosyadan tamamen sil" seçilirse düzeltilen sayfalar görüntüye çevrilir (o sayfalarda metin seçilemez). Yalnızca yatay metin satırları tıklanarak seçilebilir.
 - **Sıkıştır:** "Önerilen" yöntem yalnızca gömülü JPEG görselleri küçültür; zaten küçük ya da yalnızca metin içeren PDF'lerde kazanç olmayabilir.
 - Şifreleme standart PDF parola korumasıdır; şifre kaldırmak için şifreyi bilmeniz gerekir.
 
@@ -87,6 +89,7 @@ web/                  Statik uygulama (yayınlanan klasör)
   js/pdfcore.js       pdf.js + pdf-lib sarmalayıcıları, temel PDF işlemleri
   js/organizer.js     Sayfa Düzenleyici
   js/compare.js       Karşılaştır
+  js/edittext.js      Metin Düzelt
   js/tools.js         Araç kataloğu ve genel araç ekranı
   js/convert.js       Dönüşüm yönlendirici, yerel motor, OCR
   js/doc/             Belge modeli: DOCX okuma/yazma, PDF'ten metin modeli, PDF düzen motoru
@@ -115,7 +118,7 @@ Tam lisans metinleri: [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md)
 ## English
 
 **Belgeci** ("document clerk" in Turkish) is a free, open-source PDF toolkit that runs entirely in your browser — files never leave your device.
-Organize pages (delete / replace / insert / reorder / rotate), merge, split, compare side by side, convert between PDF, Word (DOCX),
+Organize pages (delete / replace / insert / reorder / rotate), edit text, merge, split, compare side by side, convert between PDF, Word (DOCX),
 and images, OCR, watermark, number, compress, protect and unlock.
 
 - **Web:** deploy the static `web/` folder anywhere — e.g. Cloudflare Workers via the included `wrangler.jsonc` (no build step).
