@@ -79,7 +79,7 @@ Bilgisayarınızda [LibreOffice](https://tr.libreoffice.org/) kuruluysa yerel s�
 - Yazılım MIT lisansıyla **"olduğu gibi"** sunulur; hiçbir garanti verilmez. Özellikle mahkemeye, resmî kuruma ya da karşı tarafa gönderilecek belgelerde dönüştürülmüş çıktıyı kullanmadan önce mutlaka kontrol edin.
 - Uygulamayı yalnızca **üzerinde hakkınız olan** belgelerde kullanın. Şifre Kaldır aracı yalnızca açılış şifresini bildiğiniz belgeler içindir. Belgeci, yazarın koyduğu düzenleme/kopyalama kısıtlamalarını **aşmaz**: böyle belgeler görüntülenebilir ama düzenlenemez, dönüştürülemez.
 - Dosyalar tarayıcıda işlenir ve hiçbir sunucuya gönderilmez; uygulama çerez, hesap, analiz/izleme kullanmaz. Tek istisna OCR'dır: ilk kullanımda OCR motoru ve dil verisi jsDelivr CDN'inden indirilir (belgeniz gönderilmez).
-- Üçüncü taraf bileşenlerin lisansları: [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
+- Üçüncü taraf bileşenlerin lisansları: [web/licenses.txt](web/licenses.txt).
 
 ## Proje yapısı
 
@@ -101,7 +101,7 @@ Derleme adımı yoktur: dosyayı düzenleyip sayfayı yenilemek yeterlidir.
 
 ## Kullanılan açık kaynak bileşenler
 
-Tam lisans metinleri: [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md)
+Tam lisans metinleri: [web/licenses.txt](web/licenses.txt)
 
 
 [pdf-lib (@cantoo)](https://github.com/cantoo-scribe/pdf-lib) (MIT) · [PDF.js](https://mozilla.github.io/pdf.js/) (Apache-2.0) ·

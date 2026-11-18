@@ -10,3 +10,6 @@
 
 /fonts/*
   Cache-Control: public, max-age=604800
+
+/licenses.txt
+  Content-Type: text/plain; charset=utf-8
