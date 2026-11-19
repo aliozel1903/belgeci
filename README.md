@@ -33,11 +33,13 @@ Hem **web sitesi** olarak (Cloudflare) hem de **bilgisayarda yerel** olarak çal
 
 1. Cloudflare panelinde **Workers & Pages → Create → Import a repository** ile bu depoyu seçin.
 2. Ayarları olduğu gibi bırakın (deploy komutu `npx wrangler deploy`). Yayınlanacak klasör `wrangler.jsonc` dosyasında `web` olarak tanımlıdır; derleme adımı yoktur.
-3. **Deploy**. Site `https://belgeci.<hesap-adı>.workers.dev` adresinde yayına girer; `main` dalına her gönderimde kendiliğinden güncellenir.
+3. **Kendi alan adınız:** projede **Domains → Add Domain** ile `belgeci.alanadiniz.com` gibi bir alt alan adı ekleyin
+(alan adının DNS'i Cloudflare'de olmalıdır). Alt alan adı kullanıldığında ana alan adınız başka işler için boşta kalır.
+4. **Deploy**. Site bu adreste yayına girer; `main` dalına her gönderimde kendiliğinden güncellenir.
 
-**Kendi alan adınız:** projede **Settings → Domains & Routes → Add → Custom domain** ile `belgeci.alanadiniz.com` gibi bir alt alan adı ekleyin
-(alan adının DNS'i Cloudflare'de olmalıdır).
-Alt alan adı kullanıldığında ana alan adınız başka işler için boşta kalır.
+`wrangler.jsonc` içinde `workers.dev` adresleri kapalıdır (`workers_dev: false`). Kendi alan adınız yoksa `workers_dev` ve `preview_urls`
+değerlerini `true` yapın; site `https://belgeci.<hesap-adı>.workers.dev` adresinde açılır. Bazı internet sağlayıcıları `workers.dev`
+adreslerini engelleyebildiği için kendi alan adı önerilir.
 
 `web/` klasörü tamamen statiktir (derleme adımı yoktur); Netlify, Vercel ya da GitHub Pages gibi herhangi bir statik barındırmaya da olduğu gibi konabilir.
 `web/_headers` dosyası Cloudflare'e güvenlik ve önbellek başlıklarını bildirir.

@@ -3,8 +3,10 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "belgeci",
   "compatibility_date": "2026-11-01",
-  "workers_dev": true,
-  "preview_urls": true,
+  // workers.dev adresleri kapalı: site yalnızca panelden eklenen kendi alan adından yayınlanır.
+  // Kendi alan adınız yoksa ikisini de true yapın.
+  "workers_dev": false,
+  "preview_urls": false,
   "assets": {
     "directory": "./web"
   }
