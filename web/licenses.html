@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Açık kaynak lisansları · Belgeci</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/app.css">
+<script>
+  // Tema ve dil, ana sayfadaki seçimle aynı olsun (ilk boyamadan önce)
+  try { const t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch { /* yok say */ }
+</script>
+<style>
+  .lic { max-width: 860px; }
+  .lic-head { display: grid; gap: 10px; margin-bottom: 22px; }
+  .lic-head h1 { font-size: 28px; letter-spacing: -.02em; line-height: 1.2; }
+  .lic-head p { color: var(--muted); max-width: 680px; text-wrap: pretty; }
+  .lic-stats { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .lic-stats span { font-size: 12.5px; padding: 3px 10px; border-radius: 99px; background: var(--surface-2); color: var(--muted); }
+  .lic-stats b { color: var(--ink); font-weight: 600; }
+  .lic-tools { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 14px; }
+  .lic-tools input { flex: 1 1 240px; min-width: 0; height: 40px; padding: 0 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+  .lic-tools input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .lic-tools a { font-size: 13.5px; color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
+  .lic-sec { margin: 26px 0 10px; font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .lic-list { display: grid; gap: 8px; }
+  .pkg { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+  .pkg summary { display: flex; align-items: center; gap: 10px; padding: 12px 14px; cursor: pointer; list-style: none; }
+  .pkg summary::-webkit-details-marker { display: none; }
+  .pkg summary::after { content: ""; width: 8px; height: 8px; margin-left: 4px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg) translate(-2px, -2px); transition: transform .15s; flex: none; }
+  .pkg[open] summary::after { transform: rotate(-135deg) translate(-2px, -2px); }
+  .pkg-name { font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+  .pkg-ver { color: var(--muted); font-size: 13px; }
+  .pkg .sp { flex: 1; }
+  .pkg-use { color: var(--muted); font-size: 12.5px; text-align: right; overflow-wrap: anywhere; }
+  .lic-pill { flex: none; font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 99px; background: color-mix(in srgb, var(--blue) 14%, transparent); color: var(--blue); white-space: nowrap; }
+  .lic-pill.apache { background: color-mix(in srgb, var(--violet) 14%, transparent); color: var(--violet); }
+  .lic-pill.permissive { background: color-mix(in srgb, var(--teal) 14%, transparent); color: var(--teal); }
+  .lic-pill.font { background: color-mix(in srgb, var(--amber) 16%, transparent); color: var(--amber); }
+  .pkg-body { padding: 0 14px 14px; display: grid; gap: 10px; }
+  .pkg-body .src { font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
+  .pkg-body .src a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
+  .pkg-body pre { margin: 0; max-height: 420px; overflow: auto; padding: 12px 14px; border-radius: 10px; background: var(--surface-2); font: 12.5px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .lic-empty { padding: 18px; text-align: center; color: var(--muted); }
+  .lic-note { margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; text-wrap: pretty; }
+  @media (max-width: 600px) {
+    .lic-head h1 { font-size: 23px; }
+    .pkg summary { flex-wrap: wrap; row-gap: 4px; }
+    .pkg-use { flex-basis: 100%; text-align: left; order: 5; }
+    .top .pill { display: none; }
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="./"><span class="brand-mark"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span></span><span>Belgeci</span></a>
+  <div class="top-right">
+    <button class="icon-btn lang" id="lang" type="button"></button>
+    <button class="icon-btn" id="theme" type="button"></button>
+  </div>
+</header>
+<main class="lic">
+  <div class="lic-head">
+    <a class="back" href="./" id="back"></a>
+    <h1 id="title"></h1>
+    <p id="intro"></p>
+    <div class="lic-stats" id="stats"></div>
+  </div>
+  <div class="lic-tools">
+    <input id="q" type="search" autocomplete="off">
+    <a href="licenses.txt" id="raw" target="_blank" rel="noopener"></a>
+  </div>
+  <div id="out"><p class="lic-empty" id="loading"></p></div>
+  <p class="lic-note" id="note"></p>
+</main>
+<script>
+(() => {
+  // ── dil ──
+  let lang = 'tr';
+  try { lang = localStorage.getItem('lang') || ((navigator.language || 'tr').startsWith('tr') ? 'tr' : 'en'); } catch { /* yok say */ }
+  const T = (tr, en) => (lang === 'tr' ? tr : en);
+
+  // ── tema ──
+  const root = document.documentElement;
+  let theme = null;
+  try { theme = localStorage.getItem('theme'); } catch { /* yok say */ }
+  const isDark = () => (theme ? theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches);
+  const SUN = '<path d="M12 4V2M12 22v-2M4.9 4.9 3.5 3.5M20.5 20.5l-1.4-1.4M4 12H2M22 12h-2M4.9 19.1l-1.4 1.4M20.5 3.5l-1.4 1.4"/><circle cx="12" cy="12" r="4"/>';
+  const MOON = '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>';
+  const svg = (p) => `<span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg></span>`;
+  const themeBtn = document.getElementById('theme');
+  themeBtn.onclick = () => {
+    theme = isDark() ? 'light' : 'dark';
+    try { localStorage.setItem('theme', theme); } catch { /* yok say */ }
+    root.dataset.theme = theme;
+    paintChrome();
+  };
+  document.getElementById('lang').onclick = () => {
+    lang = lang === 'tr' ? 'en' : 'tr';
+    try { localStorage.setItem('lang', lang); } catch { /* yok say */ }
+    paintChrome();
+    render();
+  };
+
+  // ── lisans dosyasını oku ──
+  const KIND = (l) => (/apache/i.test(l) ? 'apache' : /ofl|font/i.test(l) ? 'font' : /^(isc|0bsd)$/i.test(l) ? 'permissive' : '');
+  const gitUrl = (s) => {
+    s = s.trim();
+    let m = s.match(/github\.com[:/]+([^/\s]+)\/([^/\s#]+?)(?:\.git)?\/?$/i);
+    if (m) return `https://github.com/${m[1]}/${m[2]}`;
+    m = s.match(/^([\w.-]+)\/([\w.-]+)$/);
+    if (m) return `https://github.com/${m[1]}/${m[2]}`;
+    return /^https?:\/\//.test(s) ? s : null;
+  };
+  let pkgs = [], extras = [];
+  function parse(txt) {
+    const usage = {};
+    for (const line of txt.split('\n')) {
+      const c = line.split('|').map((x) => x.trim());
+      if (c.length < 6 || !c[1] || c[1].startsWith('---') || c[1].startsWith('Dosya')) continue;
+      const file = c[1].replace(/`/g, ''), name = c[2], ver = c[3], lic = c[4];
+      if (/^(liberation|foxit|tesseract)/i.test(name)) { extras.push({ file, name, ver, lic }); continue; }
+      (usage[name] ||= new Set()).add(file.replace(/^web\//, ''));
+    }
+    const parts = txt.split(/\n## /).slice(1);
+    for (const part of parts) {
+      const head = part.split('\n', 1)[0];
+      const m = head.match(/^(.+?) (\S+) \((.+)\)$/);
+      if (!m) continue;
+      const src = (part.match(/Kaynak \/ Source: (.+)/) || [])[1] || '';
+      const body = (part.match(/```text\n([\s\S]*?)\n```/) || [])[1] || '';
+      const name = m[1];
+      if (pkgs.some((p) => p.name === name)) continue;
+      pkgs.push({ name, ver: m[2], lic: m[3].replace(/^\((.*)\)$/, '$1'), src, url: gitUrl(src), text: body, use: [...(usage[name] || [])] });
+    }
+  }
+
+  const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+  const LIC_TR = { 'Liberation Fonts': 'SIL Open Font License 1.1' };
+  const EXTRA_INFO = {
+    'Liberation Fonts': { href: 'fonts/LICENSE-Liberation.txt', tr: 'PDF ve Word dönüşümlerinde kullanılan yazı tipleri.', en: 'Fonts used for PDF and Word conversions.' },
+    'Foxit fonts (pdf.js ile gelir)': { href: 'vendor/pdfjs/standard_fonts/LICENSE_FOXIT', tr: 'PDF.js ile gelen standart PDF yazı tipleri.', en: 'Standard PDF fonts bundled with PDF.js.', name: { tr: 'Foxit yazı tipleri', en: 'Foxit fonts' } },
+    'tesseract.js 5.1.1 + dil verisi': { href: 'https://github.com/naptha/tesseract.js', tr: 'Metin tanıma (OCR). Siteyle gelmez; OCR ilk kullanıldığında jsDelivr üzerinden indirilir.', en: 'Text recognition (OCR). Not bundled; downloaded from jsDelivr the first time OCR is used.', name: { tr: 'tesseract.js + dil verisi', en: 'tesseract.js + language data' } },
+  };
+
+  function card(p) {
+    const d = el('details', 'pkg');
+    d.dataset.q = `${p.name} ${p.lic} ${p.use.join(' ')}`.toLowerCase();
+    const s = el('summary');
+    s.append(el('span', 'pkg-name', p.name), el('span', 'pkg-ver', p.ver), el('span', 'lic-pill ' + KIND(p.lic), p.lic), el('span', 'sp'));
+    if (p.use.length) s.append(el('span', 'pkg-use', p.use.join(', ')));
+    const b = el('div', 'pkg-body');
+    if (p.url) {
+      const src = el('div', 'src', T('Kaynak: ', 'Source: '));
+      const a = el('a', null, p.url.replace(/^https?:\/\//, ''));
+      a.href = p.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+      src.append(a); b.append(src);
+    }
+    b.append(el('pre', null, p.text || T('Lisans metni bulunamadı.', 'License text not found.')));
+    d.append(s, b);
+    return d;
+  }
+  function extraCard(x) {
+    const info = EXTRA_INFO[x.name] || {};
+    const d = el('details', 'pkg');
+    const name = info.name ? info.name[lang] : x.name;
+    const lic = x.name === 'Liberation Fonts' ? 'SIL OFL 1.1' : x.name.startsWith('Foxit') ? 'Foxit' : x.lic;
+    d.dataset.q = `${name} ${lic}`.toLowerCase();
+    const s = el('summary');
+    s.append(el('span', 'pkg-name', name));
+    if (x.ver && x.ver !== '—') s.append(el('span', 'pkg-ver', x.ver));
+    s.append(el('span', 'lic-pill ' + (x.name.startsWith('tesseract') ? 'apache' : 'font'), lic), el('span', 'sp'));
+    const b = el('div', 'pkg-body');
+    b.append(el('div', 'src', info[lang] || ''));
+    if (info.href) {
+      const src = el('div', 'src');
+      const a = el('a', null, info.href.startsWith('http') ? info.href.replace(/^https?:\/\//, '') : T('Lisans metnini aç', 'Open license text'));
+      a.href = info.href; a.target = '_blank'; a.rel = 'noopener noreferrer';
+      src.append(a); b.append(src);
+    }
+    d.append(s, b);
+    return d;
+  }
+
+  const out = document.getElementById('out');
+  function render() {
+    if (!pkgs.length) return;
+    const stats = document.getElementById('stats');
+    stats.replaceChildren();
+    const count = {};
+    // "MIT OR GPL" gibi çift lisanslarda kullandığımız ilk seçenek (MIT) sayılır
+    pkgs.forEach((p) => p.lic.split(' OR ')[0].split(' AND ').forEach((l) => (count[l] = (count[l] || 0) + 1)));
+    const s1 = el('span'); s1.append(el('b', null, String(pkgs.length + extras.length)), T(' bileşen', ' components'));
+    stats.append(s1);
+    Object.entries(count).sort((a, b) => b[1] - a[1]).forEach(([l, n]) => { const s = el('span'); s.append(el('b', null, l), ` × ${n}`); stats.append(s); });
+
+    out.replaceChildren(
+      el('h2', 'lic-sec', T('Kod kütüphaneleri', 'Code libraries')),
+      Object.assign(el('div', 'lic-list'), { id: 'list-code' }),
+      el('h2', 'lic-sec', T('Yazı tipleri ve diğerleri', 'Fonts and other')),
+      Object.assign(el('div', 'lic-list'), { id: 'list-extra' }),
+      Object.assign(el('p', 'lic-empty', T('Eşleşen bileşen yok.', 'No matching component.')), { id: 'none', hidden: true }));
+    document.getElementById('list-code').append(...pkgs.map(card));
+    document.getElementById('list-extra').append(...extras.map(extraCard));
+    filter();
+  }
+  const q = document.getElementById('q');
+  function filter() {
+    const v = q.value.trim().toLocaleLowerCase(lang === 'tr' ? 'tr' : 'en');
+    let any = false;
+    out.querySelectorAll('.pkg').forEach((d) => { const ok = !v || d.dataset.q.includes(v); d.hidden = !ok; any ||= ok; });
+    out.querySelectorAll('.lic-list').forEach((l) => { const sec = l.previousElementSibling; const has = [...l.children].some((c) => !c.hidden); l.hidden = !has; if (sec) sec.hidden = !has; });
+    const none = document.getElementById('none');
+    if (none) none.hidden = any;
+  }
+  q.addEventListener('input', filter);
+
+  function paintChrome() {
+    root.lang = lang;
+    document.title = T('Açık kaynak lisansları · Belgeci', 'Open-source licenses · Belgeci');
+    const lb = document.getElementById('lang');
+    lb.textContent = lang === 'tr' ? 'EN' : 'TR';
+    lb.title = lb.ariaLabel = T('Switch to English', 'Türkçeye geç');
+    themeBtn.innerHTML = svg(isDark() ? SUN : MOON);
+    themeBtn.title = themeBtn.ariaLabel = T('Açık / koyu tema', 'Light / dark theme');
+    const back = document.getElementById('back');
+    back.innerHTML = svg('<path d="m15 18-6-6 6-6"/>');
+    back.append(T('Tüm araçlar', 'All tools'));
+    document.getElementById('title').textContent = T('Açık kaynak lisansları', 'Open-source licenses');
+    document.getElementById('intro').textContent = T(
+      'Belgeci, başkalarının ücretsiz yayınladığı açık kaynak bileşenlerle çalışır. Bunlar değiştirilmeden, yalnızca küçültülmüş olarak sunulur. Lisanslarının istediği gibi, her birinin yazarı ve lisans metni aşağıda yer alır. Metni görmek için bir satıra tıkla.',
+      'Belgeci is built on open-source components published freely by others. They are served unmodified, only minified. As their licenses require, each one’s authors and license text are listed below. Click a row to see the text.');
+    q.placeholder = T('Bileşen ya da lisans ara…', 'Search components or licenses…');
+    q.ariaLabel = q.placeholder;
+    document.getElementById('raw').textContent = T('Düz metin olarak aç', 'Open as plain text');
+    const loading = document.getElementById('loading');
+    if (loading) loading.textContent = T('Yükleniyor…', 'Loading…');
+    document.getElementById('note').textContent = T(
+      'Belgeci’nin kendi kodu MIT lisansıyla açık kaynaktır. Bu sayfadaki bileşenlerin hakları kendi yazarlarına aittir; Belgeci bu projelerle bağlantılı değildir ve onlar tarafından desteklenmez.',
+      'Belgeci’s own code is open source under the MIT license. The components on this page belong to their respective authors; Belgeci is not affiliated with or endorsed by these projects.');
+  }
+
+  paintChrome();
+  fetch('licenses.txt')
+    .then((r) => { if (!r.ok) throw new Error(r.status); return r.text(); })
+    .then((txt) => { parse(txt); render(); })
+    .catch(() => {
+      const p = el('p', 'lic-empty', T('Lisans listesi yüklenemedi. ', 'Could not load the license list. '));
+      const a = el('a', null, T('Düz metin olarak aç', 'Open as plain text'));
+      a.href = 'licenses.txt'; a.style.textDecoration = 'underline';
+      p.append(a);
+      out.replaceChildren(p);
+    });
+})();
+</script>
+</body>
+</html>

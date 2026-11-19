@@ -62,7 +62,7 @@ function home() {
     sections,
     h('footer.foot',
       h('p', T('Belgeci · açık kaynak (MIT) · reklamsız, hesapsız, sınırsız · ', 'Belgeci · open source (MIT) · no ads, no accounts, no limits · '),
-        h('a', { href: 'licenses.txt', target: '_blank', rel: 'noopener' }, T('Açık kaynak lisansları', 'Open-source licenses'))),
+        h('a', { href: 'licenses.html' }, T('Açık kaynak lisansları', 'Open-source licenses'))),
       h('p.disclaimer', T('Bağımsız bir projedir; herhangi bir kurum ya da şirketle bağlantısı yoktur. Yazılım "olduğu gibi" sunulur, dönüştürülen belgeleri kullanmadan önce kontrol edin. Yalnızca hakkınız olan belgeleri işleyin.', 'An independent project, not affiliated with any institution or company. Provided "as is" — check converted documents before use. Only process documents you have the right to.'))));
 }
 

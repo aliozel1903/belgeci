@@ -13,3 +13,9 @@
 
 /licenses.txt
   Content-Type: text/plain; charset=utf-8
+
+/fonts/LICENSE-Liberation.txt
+  Content-Type: text/plain; charset=utf-8
+
+/vendor/pdfjs/standard_fonts/LICENSE_FOXIT
+  Content-Type: text/plain; charset=utf-8
